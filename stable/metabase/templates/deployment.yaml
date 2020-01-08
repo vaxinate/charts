@@ -51,16 +51,24 @@ spec:
           - name: MB_ENCRYPTION_SECRET_KEY
             valueFrom:
               secretKeyRef:
+                {{- if .Values.database.existingSecret }}
+                name: {{ .Values.database.existingSecret }}
+                {{- else }}
                 name: {{ template "metabase.fullname" . }}-database
-                key: encryptionKey
+                {{- end }}
+                key: {{ .Values.database.secretKeys.encryptionKey }}
           {{- end }}
           {{- if ne (.Values.database.type | lower) "h2" }}
             {{- if .Values.database.connectionURI }}
           - name: MB_DB_CONNECTION_URI
             valueFrom:
               secretKeyRef:
+                {{- if .Values.database.existingSecret }}
+                name: {{ .Values.database.existingSecret }}
+                {{- else }}
                 name: {{ template "metabase.fullname" . }}-database
-                key: connectionURI
+                {{- end }}
+                key: {{ .Values.database.secretKeys.connectionURI }}
             {{- else }}
           - name: MB_DB_HOST
             value: {{ .Values.database.host | quote }}
@@ -71,13 +79,21 @@ spec:
           - name: MB_DB_USER
             valueFrom:
               secretKeyRef:
+                {{- if .Values.database.existingSecret }}
+                name: {{ .Values.database.existingSecret }}
+                {{- else }}
                 name: {{ template "metabase.fullname" . }}-database
-                key: username
+                {{- end }}
+                key: {{ .Values.database.secretKeys.username}}
           - name: MB_DB_PASS
             valueFrom:
               secretKeyRef:
+                {{- if .Values.database.existingSecret }}
+                name: {{ .Values.database.existingSecret }}
+                {{- else }}
                 name: {{ template "metabase.fullname" . }}-database
-                key: password
+                {{- end}}
+                key: {{ .Values.database.secretKeys.password }}
             {{- end }}
           {{- end }}
           - name: MB_PASSWORD_COMPLEXITY

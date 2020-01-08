@@ -34,6 +34,15 @@ database:
   # password:
   ## Alternatively, use a connection URI for full configurability. Example for SSL enabled Postgres.
   # connectionURI: postgres://user:password@host:port/database?ssl=true&sslmode=require&sslfactory=org.postgresql.ssl.NonValidatingFactory"
+  ## Or, create a secret yourself and reference it here (see templates/database-secret.yaml)
+  # existingSecret:
+
+  # you may want to customize the keys used when providing an existing secret
+  secretKeys:
+    encryptionKey: encryptionKey
+    username: username
+    password: password
+    connectionURI: connectionURI
 
 password:
   # Changing Metabase password complexity:
